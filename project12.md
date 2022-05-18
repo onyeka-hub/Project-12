@@ -122,10 +122,16 @@ Since you need to apply some tasks to your **dev** servers and **wireshark** is 
 ```
 
 update **site.yml** with
+
  **- import_playbook: ../static-assignments/common-del.yml** instead of **common.yml** and run it against **dev** servers:
 
 ```
 ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/dev.yml /home/ubuntu/ansible-config-artifact/playbooks/site.yml
+
+or
+
+cd ansible-config-mgt
+ansible-playbook -i inventory/dev.yml playbooks/common-del.yml
 ```
 
 **NOTE** Befor you run the above command, do the following
@@ -314,6 +320,9 @@ Commit your changes, create a Pull Request and merge them to **master** branch, 
 Now run the playbook against your uat inventory and see what happens:
 
 ```
+cd ansible-config-mgt 
+ansible-playbook -i inventory/uat.yml playbooks/site.yml
+    OR
 sudo ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/uat.yml /home/ubuntu/ansible-config-artifact/playbooks/site.yaml
 ```
 
