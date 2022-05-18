@@ -16,7 +16,7 @@ Before we begin, let us make some changes to our Jenkins job – now every new c
 1. Go to your **Jenkins-Ansible** server and create a new directory called **ansible-config-artifact** – we will store there all artifacts after each build.
 
 ```
-sudo mkdir /home/ubuntu/ansible-config-artifact
+mkdir /home/ubuntu/ansible-config-artifact
 ```
 
 2. Change permissions to this directory, so Jenkins could save files there – 
