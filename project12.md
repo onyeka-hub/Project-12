@@ -299,13 +299,13 @@ So, we should have this in **site.yml**
 ```
 ---
 - hosts: all
-- import_playbook: ../static-assignments/common-del.yml
+- import_playbook: ../static-assignments/common.yml
 
 - hosts: uat-webservers
 - import_playbook: ../static-assignments/uat-webservers.yml
 ```
 
-In summary, the site.yml is the main playbook which imports the uat-webservers.yml playbook located in the static-assignments folder which in turn contains the role (webserver) that contain s the actual playbook at the tasks folder.
+In summary, the site.yml is the main playbook which imports the uat-webservers.yml playbooks located in the static-assignments folder which in turn contains the role (webserver) that contains the actual playbook at the tasks folder.
 
 ### Step 5 – Commit & Test
 
