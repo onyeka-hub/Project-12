@@ -35,6 +35,7 @@ chmod -R 0777 /home/ubuntu/ansible-config-artifact
 6. The main idea of **save_artifacts** project is to save artifacts into **/home/ubuntu/ansible-config-artifact** directory. To achieve this, create a **Build** step and choose **Copy artifacts from other project**, specify **ansible** as a source project and **/home/ubuntu/ansible-config-artifact** as a target directory.
 
 7. Test your set up by making some change in README.MD file inside your **ansible-config-mgt** repository (right inside **master** branch).
+
 If both Jenkins jobs have completed one after another – you shall see your files inside **/home/ubuntu/ansible-config-artifact** directory and it will be updated with every commit to your **master** branch.
 
 ![testing jenkins](./images/jenkins-testing1.PNG)
