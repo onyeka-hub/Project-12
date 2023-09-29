@@ -21,7 +21,8 @@ sudo mkdir /home/ubuntu/ansible-config-artifact
 
 2. Change permissions to this directory, so Jenkins could save files there – 
 ```
-chmod -R 0777 /home/ubuntu/ansible-config-artifact
+sudo chmod -R 0777 /home/ubuntu/ansible-config-artifact
+sudo chown jenkins:jenkins /home/ubuntu/ansible-config-artifact
 ```
 
 3. Go to Jenkins web console -> Manage Jenkins -> Manage Plugins -> on **Available** tab search for **Copy Artifact** and install this plugin without restarting Jenkins
@@ -32,7 +33,9 @@ chmod -R 0777 /home/ubuntu/ansible-config-artifact
 
 **Note**: You can configure number of builds to keep in order to save space on the server, for example, you might want to keep only last 2 or 5 build results. You can also make this change to your **ansible** job.
 
-6. The main idea of **save_artifacts** project is to save artifacts into **/home/ubuntu/ansible-config-artifact** directory. To achieve this, create a **Build** step and choose **Copy artifacts from other project**, specify **ansible** as a source project and **/home/ubuntu/ansible-config-artifact** as a target directory.
+6. The main idea of **save_artifacts** project is to save artifacts into **/home/ubuntu/ansible-config-artifact** directory. To achieve this:
+- go **Build Triggers**, choose and check the box **Build after other projects are built** and add ansible as **Project to watch**
+- go to **Build step** and choose **Copy artifacts from other project**, specify **ansible** as a source project and **/home/ubuntu/ansible-config-artifact** as a target directory.
 
 7. Test your set up by making some change in README.MD file inside your **ansible-config-mgt** repository (right inside **master** branch).
 
@@ -135,7 +138,7 @@ ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/dev.yml /home
 
 - run the ping command first to check for the connectivity of the servers:
 
-'ansible all -m ping'
+`ansible all -m ping -i inventory/dev.yml`
 
 ![ping blocker](./images/ping-blocker.PNG)
 
@@ -240,7 +243,7 @@ After removing unnecessary directories and files, the **roles** structure should
 - Ensure the tooling website code is deployed to **/var/www/html** on each of 2 UAT Web servers.
 - Make sure **httpd** service is started
 
-Your **main.yml** may consist of following tasks:
+Your **tasks/main.yml** may consist of following tasks:
 
 ```
 ---
@@ -259,7 +262,7 @@ Your **main.yml** may consist of following tasks:
 - name: clone a repo
   become: true
   ansible.builtin.git:
-    repo: https://github.com/<your-name>/tooling.git
+    repo: https://github.com/onyeka-hub/tooling.git
     dest: /var/www/html
     force: yes
 
