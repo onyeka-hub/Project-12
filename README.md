@@ -20,12 +20,13 @@ sudo mkdir /home/ubuntu/ansible-config-artifact
 ```
 
 2. Change permissions to this directory, so Jenkins could save files there – 
+
 ```
 sudo chmod -R 0777 /home/ubuntu/ansible-config-artifact
 sudo chown jenkins:jenkins /home/ubuntu/ansible-config-artifact
 ```
 
-3. Go to Jenkins web console -> Manage Jenkins -> Manage Plugins -> on **Available** tab search for **Copy Artifact** and install this plugin without restarting Jenkins
+3. Go to Jenkins web console -> Manage Jenkins -> Manage Plugins -> on **Available** tab search for **Copy Artifact** and install this plugin and restart Jenkins
 
 4. Create a new Freestyle project (you have done it in Project 9) and name it **save_artifacts**.
 
@@ -126,7 +127,10 @@ Since you need to apply some tasks to your **dev** servers and **wireshark** is 
 ```
 
 update **site.yml** with
- **- import_playbook: ../static-assignments/common-del.yml** instead of **common.yml** and run it against **dev** servers:
+```
+- import_playbook: ../static-assignments/common-del.yml
+```
+instead of **common.yml** and run it against **dev** servers:
 
 ```
 ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/dev.yml /home/ubuntu/ansible-config-artifact/playbooks/site.yml
