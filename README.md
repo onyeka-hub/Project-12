@@ -15,13 +15,13 @@ Before we begin, let us make some changes to our Jenkins job – now every new c
 
 1. Go to your **Jenkins-Ansible** server and create a new directory called **ansible-config-artifact** – we will store there all artifacts after each build.
 
-```
+```sh
 sudo mkdir /home/ubuntu/ansible-config-artifact
 ```
 
 2. Change permissions to this directory, so Jenkins could save files there – 
 
-```
+```sh
 sudo chmod -R 0777 /home/ubuntu/ansible-config-artifact
 sudo chown jenkins:jenkins /home/ubuntu/ansible-config-artifact
 ```
@@ -72,7 +72,7 @@ Let see code re-use in action by importing other playbooks.
 
 Inside site.yml file, import common.yml playbook.
 
-```
+```yaml
 ---
 - hosts: all
 - import_playbook: ../static-assignments/common.yml
@@ -98,7 +98,7 @@ Run **ansible-playbook** command against the **dev** environment
 
 Since you need to apply some tasks to your **dev** servers and **wireshark** is already installed – you can go ahead and create another playbook under **static-assignments** and name it **common-del.yml**. In this playbook, configure deletion of **wireshark** utility.
 
-```
+```yaml
 ---
 - name: update web, nfs and db servers
   hosts: webservers, nfs, db
@@ -132,7 +132,7 @@ update **site.yml** with
 ```
 instead of **common.yml** and run it against **dev** servers:
 
-```
+```sh
 ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/dev.yml /home/ubuntu/ansible-config-artifact/playbooks/site.yml
 ```
 
@@ -230,7 +230,7 @@ After removing unnecessary directories and files, the **roles** structure should
 
 **NOTE**: Ensure you are using ssh-agent to ssh into the Jenkins-Ansible instance just as you have done in project 11;
 
-```
+```yaml
 [uat-webservers]
 <Web1-UAT-Server-Private-IP-Address> ansible_ssh_user='ec2-user' 
 
@@ -249,7 +249,7 @@ After removing unnecessary directories and files, the **roles** structure should
 
 Your **tasks/main.yml** may consist of following tasks:
 
-```
+```yaml
 ---
 - name: install apache
   become: true
@@ -293,7 +293,7 @@ Your **tasks/main.yml** may consist of following tasks:
 
 Within the **static-assignments** folder, create a new assignment for **uat-webservers** *uat-webservers.yml*. This is where you will reference the role.
 
-```
+```yaml
 ---
 - hosts: uat-webservers
   roles:
@@ -304,12 +304,12 @@ Remember that the entry point to our ansible configuration is the **site.yml** f
 
 So, we should have this in **site.yml**
 
-```
+```yaml
 ---
-- hosts: all
-- import_playbook: ../static-assignments/common.yml
+# - name: common applications
+# - import_playbook: ../static-assignments/common.yml
 
-- hosts: uat-webservers
+- name: uat-webservers assignment
 - import_playbook: ../static-assignments/uat-webservers.yml
 ```
 
@@ -321,7 +321,7 @@ Commit your changes, create a Pull Request and merge them to **master** branch, 
 
 Now run the playbook against your uat inventory and see what happens:
 
-```
+```sh
 sudo ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/uat.yml /home/ubuntu/ansible-config-artifact/playbooks/site.yaml
 ```
 
